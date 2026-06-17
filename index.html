@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DentalVie - Gestão de Clínica Odontológica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="light-theme">
+
+  <!-- Container de Login (Escondido por padrão) -->
+  <div id="login-container" class="hidden">
+    <!-- Será preenchido dinamicamente via JS -->
+  </div>
+
+  <!-- Container Principal do Aplicativo (Escondido até autenticar) -->
+  <div class="app-container" id="main-app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <!-- Dental Clinic Logo -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+            <path d="M12 2C10 2 8 3 8 5c0 2 1.5 3 2 4.5S9 12 9 14.5c0 2 1 3.5 3 3.5s3-1.5 3-3.5C15 12 14 11 14.5 9.5s2-2.5 2-4.5c0-2-2-3-4-3z"/>
+            <path d="M12 18c-1.5 0-3 1.5-3 3 0 1 1 1 2 1s1-1 1-2v-2z"/>
+            <path d="M12 18c1.5 0 3 1.5 3 3 0 1-1 1-2 1s-1-1-1-2v-2z"/>
+          </svg>
+          <span class="logo-text">Dental<span class="text-primary">Vie</span></span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-item active" id="nav-dashboard" data-view="dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          <span>Painel</span>
+        </a>
+        <a href="#pacientes" class="nav-item" id="nav-pacientes" data-view="pacientes">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Pacientes</span>
+        </a>
+        <a href="#agenda" class="nav-item" id="nav-agenda" data-view="agenda">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Agenda</span>
+        </a>
+        <a href="#financeiro" class="nav-item" id="nav-financeiro" data-view="financeiro">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>Financeiro</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile" style="position: relative;">
+          <div class="avatar-container">
+            <div class="avatar-circle" id="sidebar-user-avatar">DR</div>
+            <span class="status-indicator online"></span>
+          </div>
+          <div class="user-info" style="flex-grow: 1;">
+            <span class="user-name" id="sidebar-user-name">Dr. Gabriel</span>
+            <span class="user-role" id="sidebar-user-role">Cirurgião-Dentista</span>
+          </div>
+          <!-- Logout Button -->
+          <button id="btn-logout" class="btn-icon" title="Sair do Sistema" style="width:30px; height:30px; border-color:transparent; background:transparent;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px; color:var(--color-danger);"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="header-left">
+          <h1 id="view-title">Painel de Controle</h1>
+        </div>
+        <div class="header-right">
+          <!-- Seletor de Dentista Ativo (Apenas para Secretária) -->
+          <div id="dentist-selector-container" class="hidden" style="display:flex; align-items:center; gap:8px;">
+            <label for="active-dentist-select" style="font-size:12px; font-weight:700; color:var(--text-muted);">Dentista Ativo:</label>
+            <select id="active-dentist-select" style="padding:6px 12px; border-radius:var(--border-radius-md); border:1px solid var(--border-color); background-color:var(--bg-card); color:var(--text-main); font-size:13px; outline:none; cursor:pointer; font-weight:600;"></select>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="global-search" placeholder="Buscar paciente por nome ou CPF...">
+            <div id="search-results" class="search-results-dropdown hidden"></div>
+          </div>
+
+          <!-- Theme Toggle -->
+          <button id="theme-toggle" class="btn-icon" title="Alternar tema">
+            <!-- Sun icon -->
+            <svg class="sun-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <!-- Moon icon -->
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main id="app-content" class="content-area">
+        <!-- Content dynamically injected here -->
+        <div class="loader-container">
+          <div class="loader"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

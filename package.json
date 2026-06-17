@@ -1,0 +1,36 @@
+{
+  "name": "dentalvie",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "vite & electron .",
+    "electron:start": "electron .",
+    "dist": "vite build && electron-packager . DentalVie --platform=win32 --arch=x64 --out=dist-desktop --overwrite --prune=true --ignore=\"(dist-desktop|dist-app|dist-desktop-old)\""
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.0",
+    "electron-packager": "^17.1.2",
+    "vite": "^5.2.0"
+  },
+  "build": {
+    "appId": "com.odontomanager.app",
+    "productName": "OdontoManager",
+    "directories": {
+      "output": "dist-desktop"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  }
+}
